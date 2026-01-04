@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Neon Snake Arcade</title>
+        <link rel="stylesheet" href="styles.css" />
+        <style>
+            /* Perbaikan untuk background penuh hitam */
+            body {
+                margin: 0;
+                padding: 0;
+                background-color: black;
+                overflow: hidden;
+                color: white; /* Warna teks putih agar terlihat di background hitam */
+            }
+            #bg-canvas {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 50vw;
+                height: 50vh;
+                z-index: -1;
+            }
+            /* Pastikan teks di screen terlihat */
+            .screen h1,
+            .screen h2,
+            .screen p,
+            .screen label,
+            .screen button {
+                color: white;
+            }
+            .overlay h2,
+            .overlay p,
+            .overlay button {
+                color: white;
+            }
+
+            /* Style untuk butang di skrin sentuh */
+            .touch-controls {
+                position: absolute;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                display: flex;
+                justify-content: space-between;
+                width: 200px;
+            }
+            .touch-controls button {
+                background-color: rgba(0, 255, 255, 0.7);
+                border: none;
+                color: white;
+                padding: 10px;
+                font-size: 18px;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+            .touch-controls button:active {
+                background-color: rgba(0, 255, 255, 1);
+            }
+
+            /* Pastikan canvas responsif */
+            canvas {
+                width: 90vw;
+                height: 70vh;
+                margin: 0 auto;
+                display: block;
+                background-color: black;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Animated Background Canvas -->
+        <canvas id="bg-canvas"></canvas>
+
+        <!-- Start Screen -->
+        <div id="startScreen" class="screen">
+            <h1>🟢 Neon Snake Arcade 🟢</h1>
+            <button id="startBtn">Start Game</button>
+            <button id="instructionsBtn">Instructions</button>
+        </div>
+
+        <!-- Setup Screen -->
+        <div id="setupScreen" class="screen" style="display: none">
+            <div class="player-setup-container">
+                <h2>Game Setup</h2>
+                <div class="player-count-group">
+                    <label for="playerCount">Number of Players (1-4):</label>
+                    <br />
+                    <input
+                        type="number"
+                        id="playerCount"
+                        min="1"
+                        max="4"
+                        value="1"
+                    />
+                </div>
+                <div id="playerNames"></div>
+                <div class="button-group">
+                    <button id="startGameBtn">Start Playing</button>
+                    <button id="backBtn">Back</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="gameScreen" class="screen" style="display: none">
+            <div id="topBar">
+                <div id="scoreboard">Player 1 | Score: 0 | Lives: 3</div>
+                <button id="menuBtn">Menu</button>
+            </div>
+            <canvas id="game"></canvas>
+
+            <!-- Touch Controls -->
+            <div class="touch-controls">
+                <button id="leftBtn">←</button>
+                <button id="upBtn">↑</button>
+                <button id="rightBtn">→</button>
+                <button id="downBtn">↓</button>
+            </div>
+        </div>
+
+        <!-- Pause Menu -->
+        <div id="pauseMenu" class="overlay" style="display: none">
+            <h2>Game Paused</h2>
+            <button id="resumeBtn">Resume</button>
+            <button id="restartBtn">Restart</button>
+            <button id="exitBtn">Exit to Menu</button>
+        </div>
+
+        <!-- Exit Confirmation -->
+        <div id="exitConfirm" class="overlay" style="display: none">
+            <h2>Exit to Menu?</h2>
+            <p>Your progress will be lost.</p>
+            <button id="exitYes">Yes</button>
+            <button id="exitNo">No</button>
+        </div>
+
+        <!-- Instructions Screen -->
+        <div id="instructionsScreen" class="overlay" style="display: none">
+            <div>
+                <h2>How to Play</h2>
+                <p>🎮 Use arrow keys or touch controls to control the snake</p>
+                <p>🟣 Eat magenta food to grow and gain points</p>
+                <p>🔵 Eat cyan power-ups to answer Linear Algebra questions</p>
+                <p>✅ Correct answers give you extra life or slow down speed</p>
+                <p>❌ Wrong answers reduce your lives</p>
+                <p>💀 Avoid hitting walls and yourself!</p>
+                <button id="closeInstructionsBtn">Close</button>
+            </div>
+        </div>
+
+        <audio id="bgMusic" loop>
+            <source src="background.mp3" type="audio/mpeg" />
+        </audio>
+
+        <script src="snake.js"></script>
+    </body>
+</html>
